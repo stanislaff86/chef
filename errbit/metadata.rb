@@ -1,0 +1,10 @@
+name             'errbit'
+maintainer       'Stanislav Scaletchi'
+maintainer_email 'scaletchii.stanislav@gmail.com'
+license          'All Rights Reserved'
+description      'Installs/Configures errbit'
+version          '0.1.0'
+chef_version     '>= 15.0'
+
+depends          'sc-mongodb'
+depends          'ruby_rbenv'
