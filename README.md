@@ -39,13 +39,22 @@ and added these cookbooks to the run-list of a node
     "recipe[errbit]"
 ]
 
-}```
+}
+```
 
 After these steps I run the Chef client on the node
 
 ```chef-client```
 
-## TODO
+## UPDATE:
+To run the test, please go to the errbit directory and run kitchen test
+```
+cd errbit
+kitchen test
+```
+
+#### TODO
  - add attributes to errbit cookbook
  - refactor recipes
  ... and many more :-)
+
