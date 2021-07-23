@@ -46,6 +46,8 @@ action :install do
     root_path new_resource.root_path
   end
 
+  update_package_list
+  
   install_ruby_dependencies
 
   # TODO: ?

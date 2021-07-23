@@ -10,7 +10,9 @@ name 'errbit'
 default_source :supermarket
 
 # run_list: chef-client will run these recipes in the order specified.
-run_list 'errbit::default'
+run_list 'ruby_rbenv::default', 'sc-mongodb::default', 'errbit::default'
 
 # Specify a custom source for a single cookbook:
+cookbook 'ruby_rbenv', path: '../ruby_rbenv/'
+cookbook 'sc-mongodb', path: '../sc-mongodb/'
 cookbook 'errbit', path: '.'

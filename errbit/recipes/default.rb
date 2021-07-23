@@ -4,22 +4,22 @@
 #
 # Copyright:: 2021, The Authors, All Rights Reserved.
 
-workdir = '/opt/errbit'
+config = node['errbit']['config']
 
-git workdir do
+git config['workdir'] do
   repository 'https://github.com/stanislaff86/errbit.git'
   revision 'master'
   action :sync
 end
 
 execute 'Install the gems' do
-  command 'bundle install'
-  cwd workdir
+  command '/root/.rbenv/shims/bundle install'
+  cwd config['workdir']
 end
 
 execute 'the rake script' do
-  command 'bundle exec rake errbit:bootstrap'
-  cwd workdir
+  command '/root/.rbenv/shims/bundle exec rake errbit:bootstrap'
+  cwd config['workdir']
 end
 
 systemd_unit 'errbit.service' do
@@ -29,11 +29,10 @@ systemd_unit 'errbit.service' do
           },
           Service: {
             Type: 'simple',
-            WatchdogSec: '10',
-            ExecStart: '/root/.rbenv/shims/bundle exec rails server -b 0.0.0.0',
+            ExecStart: "/root/.rbenv/shims/bundle exec rails server -b #{config['bindIp']} -p #{config['port']}",
             Restart: 'on-failure',
             PIDFile: '/tmp/errbit.pid',
-            WorkingDirectory: '/opt/errbit'
+            WorkingDirectory: config['workdir']
           },
           Install: {
             WantedBy: 'multi-user.target'
@@ -41,8 +40,3 @@ systemd_unit 'errbit.service' do
   action [:create, :enable, :start]
 end
 
-
-#execute 'start server' do
-#  command 'bundle exec rails server -b 0.0.0.0 -d'
-#  cwd workdir
-#end

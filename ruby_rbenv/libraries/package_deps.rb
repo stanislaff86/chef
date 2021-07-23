@@ -1,7 +1,18 @@
 class Chef
   module Rbenv
     module PackageDeps
-      def install_ruby_dependencies
+      def update_package_list
+	    execute "update" do
+          case node['platform_family']
+		  when 'rhel', 'fedora', 'amazon'
+		    command "yum update"
+		  when 'debian'
+		    command "apt-get update"
+		  end
+		end
+	  end
+	  
+	  def install_ruby_dependencies
         case ::File.basename(new_resource.version)
         when /^jruby-/
           package jruby_package_deps

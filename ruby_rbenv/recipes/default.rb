@@ -13,6 +13,10 @@ rbenv_ruby version do
   verbose true
 end
 
+rbenv_global version do
+  user 'root'
+end
+
 rbenv_gem 'bundler' do
   version '2.2.23'
   user 'root'

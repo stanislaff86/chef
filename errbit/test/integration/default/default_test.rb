@@ -1,16 +1,33 @@
-# InSpec test for recipe errbit::default
-
-# The Chef InSpec reference, with examples and extensive documentation, can be
-# found at https://docs.chef.io/inspec/resources/
-
-unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
-    it { should exist }
-  end
+describe directory('/root/.rbenv') do
+  it { should be_directory }
 end
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
+#MongoDB checks
+describe systemd_service('mongod') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe mongodb_conf do
+  its(["net", "port"]) { should eq 27017 }
+end
+
+describe port(27017) do
+  it { should be_listening }
+  its('protocols') { should include 'tcp' }
+  its('addresses') { should include '0.0.0.0' }
+end
+
+#Errbit checks
+describe systemd_service('errbit') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe port(3003) do
+  it { should be_listening }
+  its('protocols') { should include 'tcp' }
+  its('addresses') { should include '0.0.0.0' }
 end
